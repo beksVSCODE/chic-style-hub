@@ -1,34 +1,7 @@
 import ProductCard from "./ProductCard";
-import productBlouse from "@/assets/product-blouse.jpg";
-import productCoat from "@/assets/product-coat.jpg";
-import productSweater from "@/assets/product-sweater.jpg";
+import { products } from "@/data/products";
 
-const newProducts = [
-  {
-    id: 1,
-    image: productBlouse,
-    name: "Блуза шёлковая нежно-розовая",
-    price: 4290,
-    sizes: ["S", "M", "L"],
-    isNew: true,
-  },
-  {
-    id: 2,
-    image: productCoat,
-    name: "Пальто классическое терракот",
-    price: 11990,
-    sizes: ["S", "M", "L", "XL"],
-    isNew: true,
-  },
-  {
-    id: 3,
-    image: productSweater,
-    name: "Кардиган удлинённый молочный",
-    price: 4990,
-    sizes: ["S", "M", "L"],
-    isNew: true,
-  },
-];
+const newProducts = products.filter((p) => p.isNew).slice(0, 3);
 
 const NewArrivalsSection = () => {
   return (
