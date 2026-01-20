@@ -22,59 +22,59 @@ const ProductCard = ({ image, name, price, oldPrice, sizes, isNew }: ProductCard
           src={image}
           alt={name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
         />
         
         {/* Badges */}
         {isNew && (
-          <span className="absolute top-3 left-3 bg-accent text-accent-foreground px-3 py-1 text-xs font-medium rounded-full">
+          <span className="absolute top-2 left-2 md:top-3 md:left-3 bg-accent text-accent-foreground px-2 md:px-3 py-0.5 md:py-1 text-xs font-medium rounded-full">
             Новинка
           </span>
         )}
         
         {oldPrice && (
-          <span className="absolute top-3 right-3 bg-primary text-primary-foreground px-3 py-1 text-xs font-medium rounded-full">
+          <span className="absolute top-2 right-2 md:top-3 md:right-3 bg-primary text-primary-foreground px-2 md:px-3 py-0.5 md:py-1 text-xs font-medium rounded-full">
             Скидка
           </span>
         )}
 
-        {/* Wishlist Button */}
-        <button
-          className="absolute top-3 right-3 w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background"
-          aria-label="Добавить в избранное"
-          style={{ display: oldPrice ? "none" : "flex" }}
+        {/* Mobile: Tap to contact overlay */}
+        <a
+          href="https://wa.me/79991234567"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-x-0 bottom-0 p-3 md:p-4 bg-gradient-to-t from-foreground/70 to-transparent md:opacity-0 md:group-hover:opacity-100 transition-opacity"
         >
-          <Heart className="w-5 h-5 text-foreground" />
-        </button>
-
-        {/* Quick View Overlay */}
-        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-foreground/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-          <button className="w-full bg-background text-foreground py-2.5 rounded-full text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
+          <span className="block w-full bg-background text-foreground py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium text-center hover:bg-primary hover:text-primary-foreground transition-colors">
             Написать продавцу
-          </button>
-        </div>
+          </span>
+        </a>
       </div>
 
       {/* Details */}
-      <div className="p-4">
-        <h3 className="font-medium text-foreground mb-2 line-clamp-2">{name}</h3>
+      <div className="p-3 md:p-4">
+        <h3 className="font-medium text-foreground text-sm md:text-base mb-1 md:mb-2 line-clamp-2">{name}</h3>
         
-        {/* Sizes */}
-        <div className="flex flex-wrap gap-1 mb-3">
-          {sizes.map((size) => (
+        {/* Sizes - Simplified on mobile */}
+        <div className="flex flex-wrap gap-1 mb-2 md:mb-3">
+          {sizes.slice(0, 4).map((size) => (
             <span
               key={size}
-              className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded"
+              className="text-xs text-muted-foreground bg-secondary px-1.5 md:px-2 py-0.5 rounded"
             >
               {size}
             </span>
           ))}
+          {sizes.length > 4 && (
+            <span className="text-xs text-muted-foreground">+{sizes.length - 4}</span>
+          )}
         </div>
 
         {/* Price */}
         <div className="flex items-center gap-2">
-          <span className="font-semibold text-lg text-foreground">{formatPrice(price)}</span>
+          <span className="font-semibold text-base md:text-lg text-foreground">{formatPrice(price)}</span>
           {oldPrice && (
-            <span className="text-sm text-muted-foreground line-through">
+            <span className="text-xs md:text-sm text-muted-foreground line-through">
               {formatPrice(oldPrice)}
             </span>
           )}

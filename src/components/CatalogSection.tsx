@@ -51,32 +51,124 @@ const CatalogSection = () => {
     <section id="catalog" className="section-padding">
       <div className="container-custom">
         {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <p className="text-primary font-medium tracking-widest uppercase text-xs md:text-sm mb-2 md:mb-4">
             Наш ассортимент
           </p>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-serif text-2xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4">
             Каталог одежды
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Широкий выбор женской одежды на любой вкус и случай. 
-            От повседневных образов до элегантных нарядов.
+          <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto px-4">
+            Широкий выбор женской одежды на любой вкус
           </p>
         </div>
 
-        {/* Mobile Filter Toggle */}
+        {/* Mobile Category Pills - Horizontal Scroll */}
+        <div className="md:hidden mb-4 -mx-4 px-4">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className={`flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-medium transition-colors ${
+                !selectedCategory
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-foreground"
+              }`}
+            >
+              Все
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                className={`flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+                  selectedCategory === category
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-foreground"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Filter Toggle - Simplified */}
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="md:hidden flex items-center gap-2 w-full justify-center mb-6 py-3 bg-secondary rounded-lg text-foreground font-medium"
+          className="md:hidden flex items-center gap-2 w-full justify-center mb-4 py-3 bg-card rounded-lg text-foreground font-medium shadow-sm"
         >
-          <SlidersHorizontal className="w-5 h-5" />
-          Фильтры
+          <SlidersHorizontal className="w-4 h-4" />
+          <span className="text-sm">Размер и цена</span>
+          {(selectedSizes.length > 0 || selectedPriceRange) && (
+            <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
+              {selectedSizes.length + (selectedPriceRange ? 1 : 0)}
+            </span>
+          )}
           <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
         </button>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filters Sidebar */}
-          <aside className={`lg:w-64 flex-shrink-0 ${showFilters ? "block" : "hidden md:block"}`}>
+          {/* Mobile Filters - Simplified Bottom Sheet Style */}
+          {showFilters && (
+            <div className="md:hidden bg-card rounded-xl p-4 mb-4 shadow-sm animate-fade-in">
+              {/* Size Filter - Large Touch Targets */}
+              <div className="mb-4">
+                <h4 className="font-medium text-foreground mb-3 text-sm">Размер</h4>
+                <div className="flex flex-wrap gap-2">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => toggleSize(size)}
+                      className={`min-w-[48px] h-12 rounded-lg text-sm font-medium transition-colors ${
+                        selectedSizes.includes(size)
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-foreground"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Price Filter - Simple Pills */}
+              <div>
+                <h4 className="font-medium text-foreground mb-3 text-sm">Цена</h4>
+                <div className="flex flex-wrap gap-2">
+                  {priceRanges.map((range) => (
+                    <button
+                      key={range.label}
+                      onClick={() =>
+                        setSelectedPriceRange(
+                          selectedPriceRange?.min === range.min ? null : { min: range.min, max: range.max }
+                        )
+                      }
+                      className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                        selectedPriceRange?.min === range.min
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-foreground"
+                      }`}
+                    >
+                      {range.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Clear Filters */}
+              {hasActiveFilters && (
+                <button
+                  onClick={clearFilters}
+                  className="w-full mt-4 py-3 text-primary text-sm font-medium"
+                >
+                  Сбросить фильтры
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Desktop Filters Sidebar */}
+          <aside className="hidden md:block lg:w-64 flex-shrink-0">
             <div className="bg-card p-6 rounded-xl shadow-soft sticky top-24">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="font-semibold text-foreground">Фильтры</h3>
