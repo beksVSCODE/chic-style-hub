@@ -1,53 +1,52 @@
+import { useState, useMemo } from "react";
+import { X, SlidersHorizontal, ChevronDown } from "lucide-react";
 import ProductCard from "./ProductCard";
-import productCoat from "@/assets/product-coat.jpg";
-import productSweater from "@/assets/product-sweater.jpg";
-import productSkirt from "@/assets/product-skirt.jpg";
-import productBlouse from "@/assets/product-blouse.jpg";
-
-const products = [
-  {
-    id: 1,
-    image: productCoat,
-    name: "Пальто оверсайз пыльная роза",
-    price: 8990,
-    oldPrice: 12900,
-    sizes: ["S", "M", "L", "XL"],
-  },
-  {
-    id: 2,
-    image: productSweater,
-    name: "Свитер вязаный с косами кремовый",
-    price: 3490,
-    sizes: ["S", "M", "L"],
-  },
-  {
-    id: 3,
-    image: productSkirt,
-    name: "Юбка миди плиссе бежевая",
-    price: 2990,
-    sizes: ["XS", "S", "M", "L"],
-  },
-  {
-    id: 4,
-    image: productBlouse,
-    name: "Блуза шёлковая розовая",
-    price: 4290,
-    sizes: ["S", "M", "L"],
-    isNew: true,
-  },
-];
-
-const categories = [
-  "Все",
-  "Пальто",
-  "Платья",
-  "Блузы",
-  "Юбки",
-  "Брюки",
-  "Свитера",
-];
+import { products, categories, sizes, priceRanges, type Category, type Size } from "@/data/products";
 
 const CatalogSection = () => {
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedSizes, setSelectedSizes] = useState<Size[]>([]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState<{ min: number; max: number } | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      // Category filter
+      if (selectedCategory && product.category !== selectedCategory) {
+        return false;
+      }
+
+      // Size filter
+      if (selectedSizes.length > 0) {
+        const hasMatchingSize = product.sizes.some((size) => selectedSizes.includes(size));
+        if (!hasMatchingSize) return false;
+      }
+
+      // Price filter
+      if (selectedPriceRange) {
+        if (product.price < selectedPriceRange.min || product.price > selectedPriceRange.max) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [selectedCategory, selectedSizes, selectedPriceRange]);
+
+  const toggleSize = (size: Size) => {
+    setSelectedSizes((prev) =>
+      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
+    );
+  };
+
+  const clearFilters = () => {
+    setSelectedCategory(null);
+    setSelectedSizes([]);
+    setSelectedPriceRange(null);
+  };
+
+  const hasActiveFilters = selectedCategory || selectedSizes.length > 0 || selectedPriceRange;
+
   return (
     <section id="catalog" className="section-padding">
       <div className="container-custom">
@@ -65,37 +64,166 @@ const CatalogSection = () => {
           </p>
         </div>
 
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((category, index) => (
-            <button
-              key={category}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-                index === 0
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground hover:bg-primary/10"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+        {/* Mobile Filter Toggle */}
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="md:hidden flex items-center gap-2 w-full justify-center mb-6 py-3 bg-secondary rounded-lg text-foreground font-medium"
+        >
+          <SlidersHorizontal className="w-5 h-5" />
+          Фильтры
+          <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
+        </button>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
-        </div>
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filters Sidebar */}
+          <aside className={`lg:w-64 flex-shrink-0 ${showFilters ? "block" : "hidden md:block"}`}>
+            <div className="bg-card p-6 rounded-xl shadow-soft sticky top-24">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-semibold text-foreground">Фильтры</h3>
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className="text-sm text-primary hover:underline"
+                  >
+                    Сбросить
+                  </button>
+                )}
+              </div>
 
-        {/* View More */}
-        <div className="text-center mt-12">
-          <a
-            href="#contact"
-            className="btn-outline inline-block"
-          >
-            Узнать о наличии
-          </a>
+              {/* Category Filter */}
+              <div className="mb-6">
+                <h4 className="font-medium text-foreground mb-3">Категория</h4>
+                <div className="space-y-2">
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                        selectedCategory === category
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-secondary text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Size Filter */}
+              <div className="mb-6">
+                <h4 className="font-medium text-foreground mb-3">Размер</h4>
+                <div className="flex flex-wrap gap-2">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => toggleSize(size)}
+                      className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
+                        selectedSizes.includes(size)
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-foreground hover:bg-primary/20"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Price Filter */}
+              <div>
+                <h4 className="font-medium text-foreground mb-3">Цена</h4>
+                <div className="space-y-2">
+                  {priceRanges.map((range) => (
+                    <button
+                      key={range.label}
+                      onClick={() =>
+                        setSelectedPriceRange(
+                          selectedPriceRange?.min === range.min ? null : { min: range.min, max: range.max }
+                        )
+                      }
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                        selectedPriceRange?.min === range.min
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-secondary text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {range.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Products Area */}
+          <div className="flex-1">
+            {/* Active Filters Tags */}
+            {hasActiveFilters && (
+              <div className="flex flex-wrap gap-2 mb-6">
+                {selectedCategory && (
+                  <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm">
+                    {selectedCategory}
+                    <button onClick={() => setSelectedCategory(null)}>
+                      <X className="w-4 h-4" />
+                    </button>
+                  </span>
+                )}
+                {selectedSizes.map((size) => (
+                  <span
+                    key={size}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm"
+                  >
+                    Размер {size}
+                    <button onClick={() => toggleSize(size)}>
+                      <X className="w-4 h-4" />
+                    </button>
+                  </span>
+                ))}
+                {selectedPriceRange && (
+                  <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm">
+                    {priceRanges.find((r) => r.min === selectedPriceRange.min)?.label}
+                    <button onClick={() => setSelectedPriceRange(null)}>
+                      <X className="w-4 h-4" />
+                    </button>
+                  </span>
+                )}
+              </div>
+            )}
+
+            {/* Results Count */}
+            <p className="text-muted-foreground text-sm mb-6">
+              Найдено товаров: <span className="font-medium text-foreground">{filteredProducts.length}</span>
+            </p>
+
+            {/* Products Grid */}
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} {...product} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <p className="text-muted-foreground mb-4">
+                  По вашему запросу ничего не найдено
+                </p>
+                <button
+                  onClick={clearFilters}
+                  className="btn-outline"
+                >
+                  Сбросить фильтры
+                </button>
+              </div>
+            )}
+
+            {/* Contact CTA */}
+            <div className="text-center mt-12">
+              <a href="#contact" className="btn-outline inline-block">
+                Узнать о наличии
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
