@@ -27,7 +27,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-14 md:h-20 px-4">
           {/* Logo */}
           <a href="#home" className="font-serif text-xl md:text-3xl font-semibold text-foreground">
-            Bella<span className="text-primary">Rosa</span>
+            NurSap<span className="text-primary">Collection</span>
           </a>
 
           {/* Desktop Navigation */}

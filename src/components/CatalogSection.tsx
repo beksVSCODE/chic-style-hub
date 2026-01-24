@@ -1,13 +1,28 @@
 import { useState, useMemo } from "react";
 import { X, SlidersHorizontal, ChevronDown } from "lucide-react";
 import ProductCard from "./ProductCard";
-import { products, categories, sizes, priceRanges, type Category, type Size } from "@/data/products";
+import { useProducts } from "@/hooks/use-products";
+import { type Category, type Size } from "@/data/products";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CatalogSection = () => {
+  const { data: products = [], isLoading, error } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [selectedSizes, setSelectedSizes] = useState<Size[]>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState<{ min: number; max: number } | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+
+  // Получить уникальные категории из загруженных данных
+  const categories = Array.from(new Set(products.map(p => p.category))).sort();
+  const sizes = Array.from(new Set(products.flatMap(p => p.sizes))).sort() as Size[];
+  
+  // Получить диапазон цен
+  const priceRanges = [
+    { label: "До 3000", min: 0, max: 3000 },
+    { label: "3000 - 7000", min: 3000, max: 7000 },
+    { label: "7000 - 15000", min: 7000, max: 15000 },
+    { label: "15000+", min: 15000, max: Infinity },
+  ];
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -31,7 +46,7 @@ const CatalogSection = () => {
 
       return true;
     });
-  }, [selectedCategory, selectedSizes, selectedPriceRange]);
+  }, [products, selectedCategory, selectedSizes, selectedPriceRange]);
 
   const toggleSize = (size: Size) => {
     setSelectedSizes((prev) =>
@@ -46,6 +61,50 @@ const CatalogSection = () => {
   };
 
   const hasActiveFilters = selectedCategory || selectedSizes.length > 0 || selectedPriceRange;
+
+  // Обработка loading состояния
+  if (isLoading) {
+    return (
+      <section id="catalog" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-8 md:mb-12">
+            <p className="text-primary font-medium tracking-widest uppercase text-xs md:text-sm mb-2 md:mb-4">
+              Наш ассортимент
+            </p>
+            <h2 className="font-serif text-2xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4">
+              Каталог одежды
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-80 rounded-lg" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Обработка error состояния
+  if (error) {
+    return (
+      <section id="catalog" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center py-12">
+            <h2 className="font-serif text-2xl md:text-4xl font-bold text-foreground mb-4">
+              Ошибка при загрузке товаров
+            </h2>
+            <p className="text-muted-foreground mb-4">
+              {error instanceof Error ? error.message : 'Не удалось загрузить товары из Google Sheets'}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Проверьте переменную VITE_GOOGLE_SHEET_URL в файле .env.local
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="catalog" className="section-padding">

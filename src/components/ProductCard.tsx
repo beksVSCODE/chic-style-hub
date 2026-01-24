@@ -40,7 +40,7 @@ const ProductCard = ({ image, name, price, oldPrice, sizes, isNew }: ProductCard
 
         {/* Mobile: Tap to contact overlay */}
         <a
-          href="https://wa.me/79991234567"
+          href="https://wa.me/+996550773938"
           target="_blank"
           rel="noopener noreferrer"
           className="absolute inset-x-0 bottom-0 p-3 md:p-4 bg-gradient-to-t from-foreground/70 to-transparent md:opacity-0 md:group-hover:opacity-100 transition-opacity"

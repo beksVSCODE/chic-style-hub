@@ -1,9 +1,35 @@
 import ProductCard from "./ProductCard";
-import { products } from "@/data/products";
-
-const newProducts = products.filter((p) => p.isNew).slice(0, 3);
+import { useProducts } from "@/hooks/use-products";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const NewArrivalsSection = () => {
+  const { data: products = [], isLoading } = useProducts();
+  
+  // Это должно быть ДО early returns!
+  const newProducts = products.filter((p) => p.isNew).slice(0, 3);
+
+  if (isLoading) {
+    return (
+      <section id="new" className="section-padding bg-cream">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
+              Только что поступили
+            </p>
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              Новинки сезона
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {[...Array(3)].map((_, i) => (
+              <Skeleton key={i} className="h-80 rounded-lg" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="new" className="section-padding bg-cream">
       <div className="container-custom">

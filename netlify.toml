@@ -1,0 +1,26 @@
+# Netlify конфигурация
+[build]
+  command = "bun run build"
+  functions = "netlify/functions"
+  publish = "dist"
+
+[dev]
+  command = "bun run dev"
+  port = 8080
+
+# Редиректы для SPA (чтобы все маршруты вели на index.html)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Кэширование
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

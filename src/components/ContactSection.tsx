@@ -4,15 +4,15 @@ const contactMethods = [
   {
     icon: Phone,
     title: "Телефон",
-    value: "+7 (999) 123-45-67",
-    href: "tel:+79991234567",
+    value: "+996707493529",
+    href: "tel:+996707493529",
     description: "Звоните в рабочие часы",
   },
   {
     icon: MessageCircle,
     title: "WhatsApp",
     value: "Написать в WhatsApp",
-    href: "https://wa.me/79991234567",
+    href: "https://wa.me/996550773938",
     description: "Быстрый ответ",
     highlight: true,
   },
@@ -61,7 +61,7 @@ const ContactSection = () => {
             </svg>
             <div>
               <p className="font-semibold text-lg">Telegram</p>
-              <p className="text-sm opacity-90">@bellarosa_shop</p>
+              <p className="text-sm opacity-90">@nursapcollection</p>
             </div>
           </a>
 
@@ -136,7 +136,7 @@ const ContactSection = () => {
 
             {/* Telegram */}
             <a
-              href="https://t.me/"
+              href="https://t.me/+gRq6LHIlDRswNmRi"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-4 p-6 bg-card rounded-xl shadow-soft hover:shadow-hover transition-all"
@@ -148,7 +148,7 @@ const ContactSection = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">Telegram</h3>
-                <p className="text-muted-foreground">@bellarosa_shop</p>
+                <p className="text-muted-foreground">@nursapcollection</p>
               </div>
             </a>
 
@@ -157,10 +157,9 @@ const ContactSection = () => {
               <div className="flex items-start gap-4 mb-6">
                 <MapPin className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Адрес магазина</h3>
+                  <h3 className="font-semibold text-foreground mb-1">Адрес контейнера</h3>
                   <p className="text-muted-foreground">
-                    г. Москва, Центральный рынок<br />
-                    Павильон 42, 2 этаж
+                    Рынок Дордой 0 проход 2042 контейнер<br />
                   </p>
                 </div>
               </div>
@@ -170,8 +169,7 @@ const ContactSection = () => {
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Часы работы</h3>
                   <p className="text-muted-foreground">
-                    Пн-Сб: 9:00 - 19:00<br />
-                    Вс: 10:00 - 17:00
+                    Пн-Вс: 8:00 - 15:00<br />
                   </p>
                 </div>
               </div>

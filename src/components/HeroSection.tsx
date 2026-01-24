@@ -24,14 +24,14 @@ const HeroSection = () => {
       <div className="relative z-10 container-custom px-4 pt-20 pb-24">
         <div className="max-w-2xl animate-slide-up">
           <p className="text-primary font-medium tracking-widest uppercase text-xs md:text-sm mb-3 md:mb-4">
-            Новая коллекция 2025
+            Новая коллекция 2026
           </p>
           <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-foreground leading-tight mb-4 md:mb-6">
             Элегантность в каждой детали
           </h1>
           <p className="text-base md:text-xl text-muted-foreground mb-6 md:mb-8 max-w-lg">
-            Откройте для себя изысканные коллекции женской одежды. 
-            Стиль, качество и комфорт.
+            Откройте для себя востребованные коллекции женской одежды для розничной продажи.
+            Стиль, качество и выгодные оптовые условия.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
             <button
@@ -41,7 +41,7 @@ const HeroSection = () => {
               Смотреть каталог
             </button>
             <a
-              href="https://wa.me/79991234567"
+              href="https://wa.me/+996550773938"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline text-center text-base py-4 sm:py-3 flex items-center justify-center gap-2"
