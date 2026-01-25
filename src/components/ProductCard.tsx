@@ -11,7 +11,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ image, name, price, oldPrice, sizes, isNew }: ProductCardProps) => {
   const formatPrice = (value: number) => {
-    return new Intl.NumberFormat("ru-RU").format(value) + " ₽";
+    return new Intl.NumberFormat("ru-RU").format(value) + "сом";
   };
 
   return (
