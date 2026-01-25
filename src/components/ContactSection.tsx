@@ -38,7 +38,7 @@ const ContactSection = () => {
         {/* Mobile-First Contact Buttons */}
         <div className="md:hidden space-y-3 mb-8">
           <a
-            href="https://wa.me/79991234567"
+            href="https://wa.me/996550773938"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 p-4 bg-[#25D366] text-white rounded-xl shadow-md"
@@ -51,7 +51,7 @@ const ContactSection = () => {
           </a>
 
           <a
-            href="https://t.me/"
+            href="https://t.me/+gRq6LHIlDRswNmRi"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 p-4 bg-[#229ED9] text-white rounded-xl shadow-md"
@@ -72,7 +72,7 @@ const ContactSection = () => {
             <Phone className="w-8 h-8" />
             <div>
               <p className="font-semibold text-lg">Позвонить</p>
-              <p className="text-sm opacity-90">+7 (999) 123-45-67</p>
+              <p className="text-sm opacity-90">+996 550 773 938</p>
             </div>
           </a>
         </div>
@@ -84,8 +84,7 @@ const ContactSection = () => {
             <div>
               <h3 className="font-semibold text-foreground mb-1">Адрес</h3>
               <p className="text-muted-foreground text-sm">
-                г. Москва, Центральный рынок<br />
-                Павильон 42, 2 этаж
+                Рынок Дордой 0 проход 2042 контейнер
               </p>
             </div>
           </div>
@@ -95,8 +94,7 @@ const ContactSection = () => {
             <div>
               <h3 className="font-semibold text-foreground mb-1">Часы работы</h3>
               <p className="text-muted-foreground text-sm">
-                Пн-Сб: 9:00 - 19:00<br />
-                Вс: 10:00 - 17:00
+                Пн-Вс: 8:00 - 15:00
               </p>
             </div>
           </div>

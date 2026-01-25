@@ -10,7 +10,7 @@ const FloatingContactButton = () => {
       {isOpen && (
         <div className="absolute bottom-16 right-0 flex flex-col gap-3 animate-fade-in">
           <a
-            href="https://wa.me/79991234567"
+            href="https://wa.me/+996550773938"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-lg whitespace-nowrap"
@@ -19,7 +19,7 @@ const FloatingContactButton = () => {
             <span className="font-medium">WhatsApp</span>
           </a>
           <a
-            href="https://t.me/"
+            href="https://t.me/+gRq6LHIlDRswNmRi"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 bg-[#229ED9] text-white px-4 py-3 rounded-full shadow-lg whitespace-nowrap"
@@ -30,7 +30,7 @@ const FloatingContactButton = () => {
             <span className="font-medium">Telegram</span>
           </a>
           <a
-            href="tel:+79991234567"
+            href="tel:+996550773938"
             className="flex items-center gap-3 bg-primary text-primary-foreground px-4 py-3 rounded-full shadow-lg whitespace-nowrap"
           >
             <Phone className="w-5 h-5" />

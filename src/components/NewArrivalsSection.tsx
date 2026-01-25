@@ -62,7 +62,7 @@ const NewArrivalsSection = () => {
             Подпишитесь на наш Telegram-канал и получайте уведомления о новых поступлениях
           </p>
           <a
-            href="https://t.me/"
+            href="https://t.me/+gRq6LHIlDRswNmRi"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary inline-flex items-center gap-2"
